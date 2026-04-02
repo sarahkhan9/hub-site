@@ -1,1 +1,574 @@
 # hub-site
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sarah Khan — AI Tools That Deliver the Outcome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060810;
+      --bg-card: #0d1117;
+      --blue: #22c55e;
+      --blue-dim: rgba(34, 197, 94, 0.10);
+      --blue-border: rgba(34, 197, 94, 0.28);
+      --text: #f0f2f5;
+      --muted: #6b7280;
+      --border: rgba(255,255,255,0.06);
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'Open Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* NAV */
+    nav {
+      padding: 2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--blue);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* HERO */
+    .hero {
+      padding: 6rem 0 5rem;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--blue);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--blue);
+    }
+
+    .hero-headline {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-headline em {
+      font-style: normal;
+      color: var(--blue);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    /* PRODUCTS */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .products {
+      padding: 2rem 0 6rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--border);
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      padding: 2rem 2rem 2rem;
+      position: relative;
+      transition: background 0.2s ease;
+      cursor: default;
+    }
+
+    .product-card:hover {
+      background: #101520;
+    }
+
+    .product-card:hover .card-accent {
+      width: 100%;
+    }
+
+    .card-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--blue);
+      transition: width 0.4s ease;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.1em;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .card-price {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .card-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .card-outcome {
+      font-size: 0.875rem;
+      color: var(--blue);
+      font-family: var(--mono);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 1.5rem;
+    }
+
+    .status-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .status-dot.live {
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34,197,94,0.5);
+    }
+
+    /* ABOUT */
+    .about {
+      padding: 2rem 0 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-left h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-left p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .about-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-row:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--blue);
+      min-width: 80px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* EMAIL */
+    .cta {
+      padding: 4rem 0 8rem;
+    }
+
+    .cta-box {
+      border: 1px solid var(--blue-border);
+      border-radius: 12px;
+      padding: 3rem;
+      background: var(--blue-dim);
+      text-align: center;
+    }
+
+    .cta-box h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .email-form input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .email-form input::placeholder { color: var(--muted); }
+    .email-form input:focus { border-color: var(--blue); }
+
+    .email-form button {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .email-form button:hover { opacity: 0.85; }
+    .email-form button:active { transform: scale(0.97); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(107,114,128,0.5);
+    }
+
+    /* ANIMATIONS */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up:nth-child(1) { animation-delay: 0.1s; }
+    .fade-up:nth-child(2) { animation-delay: 0.2s; }
+    .fade-up:nth-child(3) { animation-delay: 0.3s; }
+    .fade-up:nth-child(4) { animation-delay: 0.4s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .hero { padding: 4rem 0 3rem; }
+      .about { grid-template-columns: 1fr; gap: 2rem; }
+      .product-grid { grid-template-columns: 1fr; }
+      .email-form { flex-direction: column; }
+      .cta-box { padding: 2rem 1.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <nav>
+      <span class="nav-name">Sarah Khan</span>
+      <span class="nav-dot"></span>
+    </nav>
+  </div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-label fade-up">AI Tools for Operators</div>
+      <h1 class="hero-headline fade-up">
+        The outcome.<br/>
+        <em>Not the software.</em>
+      </h1>
+      <p class="hero-sub fade-up">
+        Four AI agents built for freelancers, founders, and operators who need results — not dashboards.
+        Each one delivers a specific outcome. Every week. Automatically.
+      </p>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="products">
+      <div class="section-label">Products</div>
+      <div class="product-grid">
+
+        <div class="product-card">
+          <div class="card-accent"></div>
+          <div class="card-top">
+            <span class="card-num">01</span>
+            <span class="card-price">$149 / mo</span>
+          </div>
+          <div class="card-name">LeadWake</div>
+          <div class="card-outcome">5 warm leads every Monday.</div>
+          <p class="card-desc">Monitors LinkedIn, Reddit, and Twitter daily for buying signals. Drafts five personalized outreach messages per week. Review in under ten minutes. Send.</p>
+          <div class="card-status">
+            <span class="status-dot"></span>
+            Coming soon
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="card-accent"></div>
+          <div class="card-top">
+            <span class="card-num">02</span>
+            <span class="card-price">$199 / mo</span>
+          </div>
+          <div class="card-name">RetainIQ</div>
+          <div class="card-outcome">Recover 15% of churned MRR.</div>
+          <p class="card-desc">Connects to Amplitude or Mixpanel. Identifies users showing churn signals before they cancel. Triggers a personalized intervention automatically. Generates a weekly risk report.</p>
+          <div class="card-status">
+            <span class="status-dot"></span>
+            Coming soon
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="card-accent"></div>
+          <div class="card-top">
+            <span class="card-num">03</span>
+            <span class="card-price">$499 one-time</span>
+          </div>
+          <div class="card-name">DealReady</div>
+          <div class="card-outcome">Close enterprise deals faster.</div>
+          <p class="card-desc">Ten-question onboarding. Generates SOC2 readiness checklist, security policy, DPA, and pre-filled responses to common enterprise vendor questionnaires. Reply same day.</p>
+          <div class="card-status">
+            <span class="status-dot"></span>
+            Coming soon
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="card-accent"></div>
+          <div class="card-top">
+            <span class="card-num">04</span>
+            <span class="card-price">$199 / mo</span>
+          </div>
+          <div class="card-name">ClosedBooks</div>
+          <div class="card-outcome">Month-end back in one day.</div>
+          <p class="card-desc">Upload client transactions on the 28th. Wake up on the 29th with a categorized P&L, flagged anomalies, and a draft client memo. Review and approve in thirty minutes.</p>
+          <div class="card-status">
+            <span class="status-dot"></span>
+            Coming soon
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="about">
+      <div class="about-left">
+        <div class="section-label">About</div>
+        <h2>Built by a designer who thinks in systems.</h2>
+        <p>
+          Former CPA. Staff product designer. Monetization and growth specialist at Microsoft, Amplitude, Coursera, and Fivetran. I build AI agents for the outcomes that operators actually care about — not software for its own sake.
+        </p>
+      </div>
+      <div class="about-right">
+        <div class="stat-row">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Years designing monetization systems at enterprise and growth-stage companies</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-num">4</span>
+          <span class="stat-label">AI agents shipping in 2026, each delivering a specific measurable outcome</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-num">1</span>
+          <span class="stat-label">Thesis — the outcome, not the software</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <section class="cta">
+      <div class="cta-box">
+        <h2>Follow the build.</h2>
+        <p>Early access, outcome stories, and frameworks — one email per week.</p>
+        <div class="email-form">
+          <input type="email" placeholder="your@email.com" />
+          <button type="button">Join the list</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <footer>
+      <span class="footer-name">sarahkhan.co</span>
+      <span class="footer-copy">© 2026 Sarah Khan</span>
+    </footer>
+  </div>
+
+</body>
+</html>
